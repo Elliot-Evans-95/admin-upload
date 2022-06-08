@@ -3,13 +3,14 @@ import { render, waitFor } from '@testing-library/react'
 
 import { getAllAdminUploads } from './uploaded-document.service'
 import UploadedDocument from './uploaded-document.component'
+import { adminUploads } from './uploaded-document.types'
 
 jest.mock('./uploaded-document.service')
 
 const mockGetAllAdminUploads = getAllAdminUploads as jest.MockedFunction<
     typeof getAllAdminUploads
 >
-const mockedUploadedDocuments = [
+const mockedUploadedDocuments: adminUploads[] = [
     {
         type: 'folder',
         name: 'Expenses',

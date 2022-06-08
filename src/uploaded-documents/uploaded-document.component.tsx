@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
 import { getAllAdminUploads } from './uploaded-document.service'
+import { adminUploads } from './uploaded-document.types'
 
 const UploadedDocument = () => {
-    const [adminUploadedItems, setAdminUploadedItems] = useState<any[]>([])
+    const [adminUploadedItems, setAdminUploadedItems] = useState<
+        adminUploads[]
+    >([])
 
     useEffect(() => {
         const allAdminUploads = async () => {
@@ -22,19 +25,19 @@ const UploadedDocument = () => {
         <section>
             <h1>Admin Uploaded</h1>
             {adminUploadedItems.map((uploadedItem, folderIndex) => (
-                <div key={folderIndex}>
-                    <h2>{uploadedItem.name}</h2>
-                    {uploadedItem.files && (
-                        <div>
-                            <h3>Files:</h3>
+                <details key={folderIndex}>
+                    <summary>{uploadedItem.name}</summary>
+                    <div>
+                        Files:{' '}
+                        {uploadedItem.files && (
                             <ul>
                                 {uploadedItem.files.map((file, fileIndex) => (
                                     <li key={fileIndex}>{file.name}</li>
                                 ))}
                             </ul>
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
+                </details>
             ))}
         </section>
     )
