@@ -13,7 +13,6 @@ const UploadedDocument = () => {
             } catch (e) {
                 console.error('failed to get admin uploads')
             }
-
         }
 
         allAdminUploads()
@@ -22,8 +21,20 @@ const UploadedDocument = () => {
     return (
         <section>
             <h1>Admin Uploaded</h1>
-            {adminUploadedItems.map((uploadedItem, index) => (
-                <div>{uploadedItem.name}</div>
+            {adminUploadedItems.map((uploadedItem, folderIndex) => (
+                <div key={folderIndex}>
+                    <h2>{uploadedItem.name}</h2>
+                    {uploadedItem.files && (
+                        <div>
+                            <h3>Files:</h3>
+                            <ul>
+                                {uploadedItem.files.map((file, fileIndex) => (
+                                    <li key={fileIndex}>{file.name}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
             ))}
         </section>
     )

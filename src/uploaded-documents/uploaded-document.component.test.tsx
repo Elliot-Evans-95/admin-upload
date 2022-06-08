@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, waitFor} from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 
 import { getAllAdminUploads } from './uploaded-document.service'
 import UploadedDocument from './uploaded-document.component'
@@ -11,9 +11,20 @@ const mockGetAllAdminUploads = getAllAdminUploads as jest.MockedFunction<
 >
 const mockedUploadedDocuments = [
     {
-        type: 'pdf',
-        name: 'Employee Handbook',
-        added: '2017-01-06',
+        type: 'folder',
+        name: 'Expenses',
+        files: [
+            {
+                type: 'doc',
+                name: 'Expenses claim form',
+                added: '2017-05-02',
+            },
+            {
+                type: 'doc',
+                name: 'Fuel allowances',
+                added: '2017-05-03',
+            },
+        ],
     },
 ]
 
@@ -40,13 +51,24 @@ describe('Uploaded Document', () => {
             expect(mockGetAllAdminUploads).toHaveBeenCalled()
         })
 
-        test('Then the `uploaded` items appear on the page', async () => {
+        test('Then the `uploaded` folder name appears on the page', async () => {
             const { getByText } = render(<UploadedDocument />)
 
+            const folderName = mockedUploadedDocuments[0].name
+
             await waitFor(() => {
-                expect(
-                    getByText(mockedUploadedDocuments[0].name)
-                ).toBeInTheDocument()
+                expect(getByText(folderName)).toBeInTheDocument()
+            })
+        })
+
+        test('Then the `uploaded` files and folders appear on the page', async () => {
+            const { getByText } = render(<UploadedDocument />)
+
+            const filesInFolder = mockedUploadedDocuments[0].files
+
+            await waitFor(() => {
+                expect(getByText(filesInFolder[0].name)).toBeInTheDocument()
+                expect(getByText(filesInFolder[1].name)).toBeInTheDocument()
             })
         })
     })
