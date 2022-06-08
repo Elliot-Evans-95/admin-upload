@@ -3,7 +3,7 @@
         "outDir": "build/dist",
         "module": "commonjs",
         "target": "es5",
-        "lib": ["dom"],
+        "lib": ["es2015.promise", "dom"],
         "sourceMap": true,
         "jsx": "react",
         "moduleResolution": "Node",
