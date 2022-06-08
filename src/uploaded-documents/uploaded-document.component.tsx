@@ -1,5 +1,9 @@
-import React from "react";
+import React from 'react'
 
-const UploadedDocument = () => undefined
+const UploadedDocument = () => (
+    <section>
+        <h1>Admin Uploaded</h1>
+    </section>
+)
 
 export default UploadedDocument
