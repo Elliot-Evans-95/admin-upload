@@ -4,6 +4,7 @@ import { render, waitFor } from '@testing-library/react'
 import { getAllAdminUploads } from './uploaded-document.service'
 import UploadedDocument from './uploaded-document.component'
 import { adminUploads } from './uploaded-document.types'
+import {sortUploadsByName} from "./uploaded-document.helpers";
 
 jest.mock('./uploaded-document.service')
 
@@ -27,6 +28,17 @@ const mockedUploadedDocuments: adminUploads[] = [
             },
         ],
     },
+]
+
+const mockPDFUploadDoc: adminUploads = {
+    type: 'pdf',
+    name: 'Public Holiday policy',
+    added: '2016-12-06',
+}
+
+const mockedAllUploadedDocuments: adminUploads[] = [
+    mockPDFUploadDoc,
+    ...mockedUploadedDocuments,
 ]
 
 describe('Uploaded Document', () => {
@@ -71,6 +83,24 @@ describe('Uploaded Document', () => {
                 expect(getByText(filesInFolder[0].name)).toBeInTheDocument()
                 expect(getByText(filesInFolder[1].name)).toBeInTheDocument()
             })
+        })
+    })
+
+    describe('When the user has sorted buy name', () => {
+        beforeEach(() => {
+            mockGetAllAdminUploads.mockResolvedValue(mockedAllUploadedDocuments)
+        })
+
+        afterEach(() => {
+            jest.clearAllMocks()
+        })
+
+        // Due to time I will only test the sort function
+        test('Then the folders sort in alphabetical order', async () => {
+            const expected = [...mockedUploadedDocuments, mockPDFUploadDoc]
+            const actual = sortUploadsByName(mockedAllUploadedDocuments)
+
+            expect(actual).toStrictEqual(expected)
         })
     })
 })
